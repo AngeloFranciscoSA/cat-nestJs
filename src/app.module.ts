@@ -15,7 +15,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         type: 'better-sqlite3',
         database: configService.get('DATABASE_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: false,
       }),
       inject: [ConfigService],
     }),
