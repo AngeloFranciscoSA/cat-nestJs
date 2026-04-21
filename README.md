@@ -10,6 +10,8 @@ API REST construída com NestJS e SQLite para gerenciamento de gatos, com autent
 - [class-validator](https://github.com/typestack/class-validator)
 - [Passport JWT](https://github.com/mikenicholson/passport-jwt)
 - [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
+- [typeorm-extension](https://github.com/tada5hi/typeorm-extension)
+- [@faker-js/faker](https://fakerjs.dev/)
 
 ## Instalação
 
@@ -92,6 +94,22 @@ Para acessar rotas que exigem autenticação, envie o token no header:
 
 ```
 Authorization: Bearer <token>
+```
+
+## Banco de dados
+
+```bash
+# rodar migrations
+npm run migration:run
+
+# gerar nova migration
+npm run migration:generate -- src/database/migrations/NomeDaMigration
+
+# reverter última migration
+npm run migration:revert
+
+# popular o banco com dados de teste
+npm run seed:run
 ```
 
 ## Testes
