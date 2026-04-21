@@ -1,13 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ConfigService } from '@nestjs/config';
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly configService: ConfigService,
   ) {}
 
   async _findOneOrFail(username: string) {
@@ -22,8 +25,19 @@ export class UsersService {
     return this._findOneOrFail(username);
   }
 
-  async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
-    await this.userRepository.save(createUserDto);
-    return createUserDto;
+  async create(
+    createUserDto: CreateUserDto,
+  ): Promise<{ message: string; username: string }> {
+    createUserDto.password = await bcrypt.hash(
+      createUserDto.password,
+      parseInt(<string>this.configService.get('BCRYPT_SALT_ROUNDS')) ?? 10,
+    );
+    const _userSave = await this.userRepository.save(createUserDto);
+
+    if (!_userSave) {
+      throw new InternalServerErrorException('');
+    }
+
+    return { message: 'User created!', username: _userSave.username };
   }
 }

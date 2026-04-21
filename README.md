@@ -9,6 +9,7 @@ API REST construída com NestJS e SQLite para gerenciamento de gatos, com autent
 - [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
 - [class-validator](https://github.com/typestack/class-validator)
 - [Passport JWT](https://github.com/mikenicholson/passport-jwt)
+- [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
 
 ## Instalação
 
@@ -25,6 +26,7 @@ JWT_SECRET=sua-chave-secreta
 JWT_EXPIRES_IN=1d
 DATABASE_NAME=cats.sqlite
 PORT=3000
+BCRYPT_SALT_ROUNDS=10
 ```
 
 ## Rodando o projeto
@@ -52,6 +54,15 @@ npm run start:prod
 {
   "username": "angelo",
   "password": "123456"
+}
+```
+
+#### Resposta do registro
+
+```json
+{
+  "message": "User created!",
+  "username": "angelo"
 }
 ```
 
