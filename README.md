@@ -1,6 +1,6 @@
 # projeto-teste
 
-API REST construída com NestJS e SQLite para gerenciamento de gatos.
+API REST construída com NestJS e SQLite para gerenciamento de gatos, com autenticação JWT.
 
 ## Tecnologias
 
@@ -8,11 +8,23 @@ API REST construída com NestJS e SQLite para gerenciamento de gatos.
 - [TypeORM](https://typeorm.io/)
 - [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
 - [class-validator](https://github.com/typestack/class-validator)
+- [Passport JWT](https://github.com/mikenicholson/passport-jwt)
 
 ## Instalação
 
 ```bash
 npm install
+```
+
+## Variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto com base no `.env.example`:
+
+```env
+JWT_SECRET=sua-chave-secreta
+JWT_EXPIRES_IN=1d
+DATABASE_NAME=cats.sqlite
+PORT=3000
 ```
 
 ## Rodando o projeto
@@ -27,17 +39,33 @@ npm run start:prod
 
 ## Endpoints
 
+### Auth
+
+| Método | Rota             | Descrição           | Auth |
+|--------|------------------|---------------------|------|
+| POST   | /auth/register   | Registrar usuário   | Não  |
+| POST   | /auth            | Login (retorna JWT) | Não  |
+
+#### Payload de registro/login
+
+```json
+{
+  "username": "angelo",
+  "password": "123456"
+}
+```
+
 ### Cats
 
-| Método | Rota        | Descrição              |
-|--------|-------------|------------------------|
-| POST   | /cats        | Criar um gato          |
-| GET    | /cats        | Listar todos os gatos  |
-| GET    | /cats/:id    | Buscar gato por ID     |
-| PATCH  | /cats/:id    | Atualizar gato por ID  |
-| DELETE | /cats/:id    | Remover gato por ID    |
+| Método | Rota        | Descrição              | Auth |
+|--------|-------------|------------------------|------|
+| POST   | /cats        | Criar um gato          | Não  |
+| GET    | /cats        | Listar todos os gatos  | Sim  |
+| GET    | /cats/:id    | Buscar gato por ID     | Não  |
+| PATCH  | /cats/:id    | Atualizar gato por ID  | Não  |
+| DELETE | /cats/:id    | Remover gato por ID    | Não  |
 
-### Exemplo de payload (POST/PATCH)
+#### Payload de cats (POST/PATCH)
 
 ```json
 {
@@ -45,6 +73,14 @@ npm run start:prod
   "age": 3,
   "breed": "Siamese"
 }
+```
+
+#### Rotas protegidas
+
+Para acessar rotas que exigem autenticação, envie o token no header:
+
+```
+Authorization: Bearer <token>
 ```
 
 ## Testes
