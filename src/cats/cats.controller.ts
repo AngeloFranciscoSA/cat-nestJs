@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { ICat } from './interfaces/cat.interface';
+import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 
 @Controller('cats')
 export class CatsController {
@@ -22,6 +24,7 @@ export class CatsController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async findAll(): Promise<ICat[]> {
     return await this.catsService.findAll();
   }
