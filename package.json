@@ -21,9 +21,9 @@
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/database/data-source.ts",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/database/data-source.ts",
-    "seed:run": "ts-node --transpile-only --project tsconfig.seed.json -r tsconfig-paths/register node_modules/typeorm-extension/bin/cli.cjs seed:run -d src/database/data-source.ts --tsconfig tsconfig.seed.json"
-  },
+    "seed:run": "ts-node --transpile-only --project tsconfig.seed.json -r tsconfig-paths/register node_modules/typeorm-extension/bin/cli.cjs seed:run -d src/database/data-source.ts --tsconfig tsconfig.seed.json -n src/database/seeds/cat.seeder.ts"   },
   "dependencies": {
+    "@faker-js/faker": "^10.4.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
